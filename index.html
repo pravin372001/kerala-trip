@@ -129,16 +129,16 @@
   .day-grid { display: grid; gap: 22px; }
   @media (min-width: 900px) { .day-grid { grid-template-columns: 1.55fr 1fr; align-items: start; } }
 
-  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
-  .timeline::before { content: ""; position: absolute; left: 6.6rem; top: 6px; bottom: 6px; border-left: 2px solid var(--ink); }
-  .row { display: grid; grid-template-columns: 6.6rem 1fr; gap: 0 18px; padding: 7px 0; position: relative; border-radius: 10px; }
-  .row::before { content: ""; position: absolute; left: calc(6.6rem - 6px); top: 15px; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+  .timeline { --tcol: 6.6rem; list-style: none; margin: 0; padding: 0; position: relative; }
+  .timeline::before { content: ""; position: absolute; left: var(--tcol); top: 6px; bottom: 6px; border-left: 2px solid var(--ink); }
+  .row { display: grid; grid-template-columns: var(--tcol) 1fr; gap: 0 18px; padding: 7px 0; position: relative; border-radius: 10px; }
+  .row::before { content: ""; position: absolute; left: calc(var(--tcol) - 6px); top: 15px; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
   .time { font-family: "Kalam", cursive; font-weight: 700; font-size: .98rem; text-align: right; padding-right: 10px; white-space: nowrap; line-height: 1.35; }
   .time small { display: block; font-weight: 400; color: var(--ink-soft); font-size: .85rem; }
   .what { min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-weight: 600; }
   .what .title { font-size: 1.05rem; overflow-wrap: anywhere; }
   .sticker { overflow-wrap: anywhere; }
-  @media (max-width: 360px) { .timeline::before { left: 5.4rem; } .row { grid-template-columns: 5.4rem 1fr; gap: 0 14px; } .row::before { left: calc(5.4rem - 6px); } .time { font-size: .9rem; } }
+
   .row.drive .what { color: var(--ink-soft); font-weight: 600; font-style: italic; }
   .row.drive::before { background: var(--ink); border-radius: 3px; }
   .row.drive .dur { font-style: normal; font-size: .82rem; font-weight: 800; border: 1.5px dashed var(--ink-soft); border-radius: 999px; padding: 0 8px; }
@@ -227,6 +227,67 @@
   .theme-toggle { margin-top: 26px; font: inherit; font-weight: 700; cursor: pointer; background: var(--card); color: var(--ink); border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px; display: inline-flex; gap: 6px; align-items: center; }
 
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 640px) {
+    body { background-image:
+      linear-gradient(90deg, transparent 12px, var(--margin-red) 12px, var(--margin-red) 14px, transparent 14px),
+      repeating-linear-gradient(to bottom, transparent 0 31px, var(--paper-line) 31px 32px); }
+    .wrap { padding: 0 16px 0 26px; }
+    html { scroll-padding-top: 64px; }
+
+    /* hero: title + countdown only */
+    .hero { padding: 22px 0 14px; }
+    .hero h1 { font-size: 2.5rem; padding-right: 64px; }
+    .hero-sun { width: 64px; top: 10px; right: -4px; }
+    .meta { font-size: 1.15rem; margin-bottom: 0; }
+    .route { display: none; }
+    .countdown { margin-top: 14px; padding: 8px 14px; }
+    .countdown b { font-size: 2rem; }
+    .quote { font-size: 1.05rem; margin-top: 12px; }
+
+    /* nav: all five pills fit at 375 */
+    .daynav { margin: 0 -16px 0 -26px; padding: 8px 16px 8px 26px; }
+    .daynav ul { gap: 5px; }
+    .daynav a { font-size: .95rem; padding: 8px 9px; min-height: 40px; }
+
+    /* day: highlights strip -> timeline -> stay */
+    .day { padding-top: 26px; }
+    .day-head { margin-bottom: 10px; }
+    .day-head .leg { font-size: 1rem; }
+    .day-grid { gap: 16px; grid-template-columns: minmax(0, 1fr); }
+    .side { display: contents; }
+    .legs-card { display: none; }
+    .highlights { order: -1; border: 0; box-shadow: none; background: none; padding: 0; }
+    .highlights h3 { display: none; }
+    .stickers { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 4px 2px 8px; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }
+    .stickers::-webkit-scrollbar { display: none; }
+    .sticker { flex: none; width: 104px; padding: 8px 4px; font-size: .78rem; line-height: 1.25; }
+    .sticker svg { width: 44px; height: 44px; }
+
+    /* timeline: start time only, compact drives, bigger taps */
+    .timeline { --tcol: 4.4rem; }
+    .row { gap: 0 14px; padding: 8px 0; }
+    .row::before { top: 16px; }
+    .time { font-size: .95rem; padding-right: 8px; }
+    .time small { display: none; }
+    .row.drive { padding: 4px 0; }
+    .row.drive .time { font-size: .85rem; color: var(--ink-soft); }
+    .row.drive .what { font-size: .92rem; gap: 2px 8px; }
+    .row.drive .what .title { font-size: .92rem; }
+    .row.is-now .time { color: #1E2E5C; }
+    .row:not(.drive) .what { flex-wrap: nowrap; }
+    .row:not(.drive) .what .title { flex: 1 1 auto; min-width: 0; }
+    .maplink.pin { flex: none; width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 50%; font-size: 0; gap: 0; margin: -6px 0; }
+    .maplink.pin .icon { width: 18px; height: 18px; }
+    .maplink.extlink { display: none; }   /* stay card right below has the button */
+    .row.is-now::after { display: none; } /* banner + green row already say it */
+
+    .card { padding: 14px 14px; }
+    .stay-links .btn { flex: 1 1 100%; justify-content: center; }
+    .section { padding-top: 30px; }
+    .collect { transform: none; }
+  }
 
   /* doodle defaults */
   .doodle { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none; }
@@ -557,8 +618,8 @@ TRIP.forEach((day, di) => {
         ${r.type === "drive" ? `<svg class="icon" aria-hidden="true"><use href="#i-car"/></svg>` : ""}
         <span class="title">${esc(r.label)}</span>
         ${r.dur ? `<span class="dur">${esc(r.dur)}</span>` : ""}
-        ${r.link ? `<a class="maplink" href="${r.link.href}" target="_blank" rel="noopener">${esc(r.link.text)}</a>` : ""}
-        ${r.place || r.mapHref ? `<a class="maplink" href="${r.mapHref || mapsUrl(r.place)}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Maps<span class="sr-only"> for ${esc(r.label)}</span></a>` : ""}
+        ${r.link ? `<a class="maplink extlink" href="${r.link.href}" target="_blank" rel="noopener">${esc(r.link.text)}</a>` : ""}
+        ${r.place || r.mapHref ? `<a class="maplink pin" href="${r.mapHref || mapsUrl(r.place)}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Maps<span class="sr-only"> for ${esc(r.label)}</span></a>` : ""}
       </div>
     </li>`).join("");
 
@@ -575,7 +636,7 @@ TRIP.forEach((day, di) => {
     <div class="day-grid">
       <ol class="timeline">${rowsHtml}</ol>
       <div class="side">
-        <div class="card">
+        <div class="card legs-card">
           <h3><span class="hl hl-blue">Travel times</span></h3>
           <ul class="legs">${legs.map(r => `<li><span>${esc(r.label.replace(/^Start from office → /, "Office → "))}</span><b>${esc(r.dur)}</b></li>`).join("")}</ul>
         </div>
@@ -585,7 +646,7 @@ TRIP.forEach((day, di) => {
           <ul class="stay-notes">${day.stay.notes.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
           <div class="stay-links">${day.stay.links.map(l => `<a class="btn" href="${l.href}"${l.href.startsWith("tel:") ? "" : ' target="_blank" rel="noopener"'}><svg class="icon" aria-hidden="true"><use href="#${l.icon}"/></svg>${esc(l.text)}</a>`).join("")}</div>
         </div>` : ""}
-        <div class="card">
+        <div class="card highlights">
           <h3><span class="hl hl-green">Highlights</span></h3>
           <div class="stickers">${day.stickers.map(([id, name]) => `<div class="sticker"><svg aria-hidden="true"><use href="#${id}"/></svg>${esc(name)}</div>`).join("")}</div>
         </div>
